@@ -1,0 +1,9 @@
+# Main Repository (PC Architecture)
+deb [arch=i386,amd64] http://us.archive.ubuntu.com/ubuntu/ ${CODENAME} main restricted universe
+deb [arch=i386,amd64] http://us.archive.ubuntu.com/ubuntu/ ${CODENAME}-updates main restricted universe
+deb [arch=i386,amd64] http://us.archive.ubuntu.com/ubuntu/ ${CODENAME}-security main restricted universe
+
+# Ports (ARM, PowerPC, etc..)
+deb [arch=arm64,armel,armhf,powerpc,ppc64el,riscv64,s390x] http://ports.ubuntu.com/ ${CODENAME} main restricted universe
+deb [arch=arm64,armel,armhf,powerpc,ppc64el,riscv64,s390x] http://ports.ubuntu.com/ ${CODENAME}-updates main restricted universe
+deb [arch=arm64,armel,armhf,powerpc,ppc64el,riscv64,s390x] http://ports.ubuntu.com/ ${CODENAME}-security main restricted universe

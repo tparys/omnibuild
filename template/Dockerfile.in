@@ -1,0 +1,7 @@
+FROM ${DISTRO}:${CODENAME} as builder
+LABEL stage=builder
+
+# Multiarch apt
+COPY apt/${DISTRO}.list /etc/apt/sources.list
+COPY setup.sh /
+RUN /bin/bash setup.sh ${DISTRO} ${CODENAME} "${EXTRA_ARCH}"
