@@ -1,0 +1,24 @@
+Source: foonathan-memory
+Section: admin
+Priority: optional
+Maintainer: Tim Parys <tparys@gmail.com>
+Build-Depends:
+    debhelper (>=8),
+    lsb-release,
+    cmake,
+Rules-Requires-Root: no
+Standards-Version: 4.3.0
+Homepage: https://github.com/foonathan/memory
+Vcs-Git: https://github.com/foonathan/memory.git
+Vcs-Browser: https://github.com/foonathan/memory
+
+Package: libfoonathan-memory0-dev
+Section: libdevel
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends}
+Description: eProsima CDR Packing/Unpacking (development)
+ STL compatible C++ memory allocator
+ .
+ This package contains the development files.

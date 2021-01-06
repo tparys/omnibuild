@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_VERBOSE=1
+
+override_dh_update_autotools_config:
+override_dh_autoreconf:
+
+override_dh_auto_configure:
+	install -d obj-${DEB_TARGET_MULTIARCH}
+	cd obj-${DEB_TARGET_MULTIARCH} && cmake -DCMAKE_INSTALL_PREFIX=/usr -DINCLUDE_INSTALL_DIR=/usr/include/${DEB_TARGET_MULTIARCH} -DLIB_INSTALL_DIR=/usr/lib/${DEB_TARGET_MULTIARCH} -DCOMPILE_TOOLS=OFF ..
+
+# Fast-DDS dumps CMake files in a dumb place ...
+execute_before_dh_install:
+	( cd debian/tmp && mkdir usr/lib/${DEB_TARGET_MULTIARCH}/cmake && mv usr/share/fastrtps/cmake usr/lib/${DEB_TARGET_MULTIARCH}/cmake/fastdds )
+
+%:
+	dh $@ --buildsystem=cmake

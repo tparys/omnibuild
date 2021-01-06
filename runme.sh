@@ -3,8 +3,8 @@ set -e
 
 # Configuration (TBD - parse args)
 export DISTRO=ubuntu
-export CODENAME=focal
-export EXTRA_ARCH="i386 armhf arm64"
+export CODENAME=xenial
+export EXTRA_ARCH="armhf arm64"
 BUILD_CONTEXT=build
 
 # Reset build context
