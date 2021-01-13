@@ -5,5 +5,7 @@ ARCHS="amd64 armhf arm64"
 DISTROS="xenial focal"
 
 for DISTRO in ${DISTROS}; do
-    docker run -it -v ${PWD}:/obuild obuild:${DISTRO} /obuild/runme.sh "${ARCHS}"
+    CACHE_DIR=${PWD}/ccache/${DISTRO}
+    mkdir -p ${CACHE_DIR}
+    docker run -it -v ${PWD}:/obuild -v ${CACHE_DIR}:/root/.ccache obuild:${DISTRO} /obuild/runme.sh "${ARCHS}"
 done

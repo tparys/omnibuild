@@ -32,6 +32,13 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     SRC_DIR_ORIG=$(basename ${GIT_REPO} .git)
     git clone --branch ${GIT_TAG} --depth 1 ${GIT_REPO} ${SRC_DIR_ORIG}
 
+    # Apply source patch if present
+    if [ -f ${PKG_DIR}/changes.patch ]; then
+        pushd ${SRC_DIR_ORIG}
+        git apply ${PKG_DIR}/changes.patch
+        popd
+    fi
+
     # Package up original source
     tar zcf ${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz ${SRC_DIR_ORIG}
 
@@ -69,9 +76,13 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
             if [ $UID -ne 0 ]; then
                 echo "Missing Dependencies: ${MISSING_DEP}"
             else
+                MISSING_PKGS=
                 for DEP in ${MISSING_DEPS}; do
-                    DEBIAN_FRONTEND=noninteractive apt-get install -y ${DEP}:${DEB_ARCH}
+                    MISSING_PKGS+="${MISSING_PKGS} ${DEP}:${DEB_ARCH}"
                 done
+                if [ ! -z "${MISSING_PKGS}" ]; then
+                    DEBIAN_FRONTEND=noninteractive apt-get install -y ${MISSING_PKGS}
+                fi
             fi
         fi
 

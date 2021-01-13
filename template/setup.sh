@@ -15,7 +15,7 @@ apt-get update
 
 # Basic packages
 export DEBIAN_FRONTEND=noninteractive
-apt-get install -y qemu-user-static build-essential cmake dpkg-dev devscripts debhelper git default-jdk
+apt-get install -y qemu-user-static build-essential ccache cmake dpkg-dev devscripts debhelper git default-jdk
 
 # Cross Compilers, basic libraries for each arch
 for ARCH in ${EXTRA_ARCH}; do
