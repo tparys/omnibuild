@@ -2,7 +2,7 @@
 set -e
 
 ARCHS="amd64 armhf arm64"
-DISTROS="focal xenial focal"
+DISTROS="xenial focal"
 
 for DISTRO in ${DISTROS}; do
     docker run -it -v ${PWD}:/obuild obuild:${DISTRO} /obuild/runme.sh "${ARCHS}"

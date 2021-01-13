@@ -7,6 +7,7 @@ BASE_DIR=${PWD}
 WORK_DIR=work
 DEB_ARCHS="${1}"
 DEB_CODENAME=$(lsb_release -sc)
+export DEB_MAINTAINER="$(whoami) <$(git config --get user.email)>"
 
 # If not specified, build for native architecture
 if [ -z "${DEB_ARCHS}" ]; then
@@ -19,9 +20,8 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     if [ ! -f ${PKG_DIR}/settings.sh ]; then
         continue
     fi
-    . ${PKG_DIR}/settings.sh ]
-    DEB_PACKAGE=lib${DEB_LIB_NAME}${DEB_LIB_MAJOR}
-    DEB_RELEASE=1~${DEB_CODENAME}1
+    . ${PKG_DIR}/settings.sh
+    export DEB_RELEASE=1~${DEB_CODENAME}1
 
     # Set up work directory
     rm -rf ${WORK_DIR}
@@ -33,27 +33,26 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     git clone --branch ${GIT_TAG} --depth 1 ${GIT_REPO} ${SRC_DIR_ORIG}
 
     # Package up original source
-    tar zcf ${DEB_LIB_NAME}_${DEB_VERSION}.orig.tar.gz ${SRC_DIR_ORIG}
+    tar zcf ${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz ${SRC_DIR_ORIG}
 
-    # Rename original source and package up as a debian
-    SRC_DIR=${DEB_LIB_NAME}-${DEB_VERSION}
+    # Rename original source to match debian conventions
+    SRC_DIR=${DEB_PKG_NAME}-${DEB_VERSION}
     mv ${SRC_DIR_ORIG} ${SRC_DIR}
-    mkdir ${SRC_DIR}/debian
-    cp -r ${PKG_DIR}/debian ${SRC_DIR}/
 
     # Get date from git for reproducable builds
     pushd ${SRC_DIR}
-    GIT_DATE=$(git log | grep Date | cut -d ' ' -f 4-)
+    export GIT_DATE=$(git log --date=rfc | grep Date | cut -d ' ' -f 4-)
     popd
 
-    # A barely passable changelog
-    cat > ${SRC_DIR}/debian/changelog <<EOF
-${DEB_LIB_NAME} (${DEB_VERSION}-${DEB_RELEASE}) UNRELEASED; urgency=medium
-
-  * Auto packaged without history. (Closes: #1)
-
- -- Tim Parys <tparys@gmail.com>  ${GIT_DATE}
-EOF
+    # Copy debian template into place & configure
+    mkdir ${SRC_DIR}/debian
+    cp -r ${PKG_DIR}/debian ${SRC_DIR}/
+    pushd ${SRC_DIR}/debian
+    for file in $(find . -name '*.in' -type f -print); do
+        envsubst < ${file} > ${file//.in/}
+        rm ${file}
+    done
+    popd
 
     # Build for all specified architectures
     for DEB_ARCH in ${DEB_ARCHS}; do

@@ -1,7 +1,7 @@
 Source: fastdds
 Section: admin
 Priority: optional
-Maintainer: Tim Parys <tparys@gmail.com>
+Maintainer: ${DEB_MAINTAINER}
 Build-Depends:
     debhelper (>=8),
     lsb-release,

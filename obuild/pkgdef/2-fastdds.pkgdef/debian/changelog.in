@@ -1,0 +1,5 @@
+${DEB_PKG_NAME} (${DEB_VERSION}-${DEB_RELEASE}) UNRELEASED; urgency=medium
+
+  * Auto packaged without history. (Closes: #1)
+
+ -- ${DEB_MAINTAINER}  ${GIT_DATE}
