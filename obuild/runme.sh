@@ -104,7 +104,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
         # If building multiple targets, cleanup build products
         if [ "${DEB_ARCH}" != "${DEB_ARCHS}" ]; then
-            rm -r "obj-${TUPLE}"
+            rm -fr "obj-${TUPLE}"
         fi
 
         # (FIXME) Sort out build products
