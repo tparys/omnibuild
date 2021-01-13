@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DH_VERBOSE=1
+
+override_dh_update_autotools_config:
+override_dh_autoreconf:
+override_dh_auto_configure:
+override_dh_auto_test:
+
+override_dh_auto_build:
+	./gradlew build -x test
+
+override_dh_auto_install:
+	install -d debian/tmp/usr/bin
+	install scripts/fastrtpsgen debian/tmp/usr/bin
+	install -d debian/tmp/usr/share/fastrtpsgen/java
+	install ./build/libs/fastrtpsgen.jar debian/tmp/usr/share/fastrtpsgen/java
+
+%:
+	dh $@

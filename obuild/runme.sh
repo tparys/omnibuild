@@ -64,6 +64,13 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     # Build for all specified architectures
     for DEB_ARCH in ${DEB_ARCHS}; do
 
+        # Skip "ARCH=all" only packages when cross compiling
+        if [ "${DEB_ARCH}" != $(dpkg --print-architecture) ]; then
+            if ! grep -q 'linux-any' ${SRC_DIR}/debian/control; then
+                continue;
+            fi
+        fi
+
         # Set appropriate compiler for target architecture
         TUPLE=$(dpkg-architecture -q DEB_TARGET_GNU_TYPE -A ${DEB_ARCH})
         export CC=${TUPLE}-gcc
@@ -100,11 +107,13 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
             rm -r "obj-${TUPLE}"
         fi
 
-        # Copy out build products
+        # (FIXME) Sort out build products
         popd
-        DEB_OUT=${BASE_DIR}/debs/${DEB_CODENAME}/${DEB_ARCH}
-        mkdir -p ${DEB_OUT}
-        cp *.deb *.dsc *tar* ${DEB_OUT}/
+        DEB_BASE=${BASE_DIR}/debs/${DEB_CODENAME}
+        mkdir -p ${DEB_BASE}/{src,all,${DEB_ARCH}}
+        cp *.dsc *tar* ${DEB_BASE}/src || true
+        cp *_all.deb ${DEB_BASE}/all || true
+        cp *_${DEB_ARCH}.deb ${DEB_BASE}/${DEB_ARCH} || true
 
     done
 

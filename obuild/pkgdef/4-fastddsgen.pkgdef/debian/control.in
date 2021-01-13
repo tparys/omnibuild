@@ -1,0 +1,26 @@
+Source: fastddsgen
+Section: admin
+Priority: optional
+Maintainer: ${DEB_MAINTAINER}
+Build-Depends:
+    debhelper (>=8),
+    lsb-release,
+Rules-Requires-Root: no
+Standards-Version: 4.3.0
+Homepage: https://www.eprosima.com
+Vcs-Git: https://github.com/eProsima/Fast-DDS-Gen.git
+Vcs-Browser: https://github.com/eProsima/Fast-DDS-Gen
+
+Package: fastddsgen
+Section: libs
+Architecture: all
+Multi-Arch: foreign
+Depends:
+    ${misc:Depends},
+    libfastcdr1-dev,
+    libfastdds2-dev,
+Pre-Depends: ${misc:Pre-Depends}
+Description: eProsima DDS/RTPS Middleware IDL Compiler
+ eProsima DDS/RTPS Middleware IDL Compiler
+ .
+ This package provides the IDL compiler.

@@ -9,3 +9,4 @@ for DISTRO in ${DISTROS}; do
     mkdir -p ${CACHE_DIR}
     docker run -it -v ${PWD}:/obuild -v ${CACHE_DIR}:/root/.ccache obuild:${DISTRO} /obuild/runme.sh "${ARCHS}"
 done
+docker system prune -f
