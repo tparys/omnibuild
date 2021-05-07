@@ -6,7 +6,7 @@ cd $(dirname $0)
 BASE_DIR=${PWD}
 WORK_DIR=work
 DEB_ARCHS="${1}"
-DEB_CODENAME=$(lsb_release -sc)
+export DEB_CODENAME=$(lsb_release -sc)
 export DEB_MAINTAINER="$(whoami) <$(git config --get user.email)>"
 
 # If not specified, build for native architecture
@@ -85,11 +85,9 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
             else
                 MISSING_PKGS=
                 for DEP in ${MISSING_DEPS}; do
-                    MISSING_PKGS+="${MISSING_PKGS} ${DEP}:${DEB_ARCH}"
-                done
-                if [ ! -z "${MISSING_PKGS}" ]; then
-                    DEBIAN_FRONTEND=noninteractive apt-get install -y ${MISSING_PKGS}
-                fi
+                    DEBIAN_FRONTEND=noninteractive apt-get install -y ${DEP}:${DEB_ARCH} ||
+			DEBIAN_FRONTEND=noninteractive apt-get install -y ${DEP}:all
+		done
             fi
         fi
 

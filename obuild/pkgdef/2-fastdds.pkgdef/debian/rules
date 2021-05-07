@@ -8,7 +8,7 @@ override_dh_autoreconf:
 
 override_dh_auto_configure:
 	install -d obj-${DEB_TARGET_MULTIARCH}
-	cd obj-${DEB_TARGET_MULTIARCH} && cmake -DCMAKE_INSTALL_PREFIX=/usr -DINCLUDE_INSTALL_DIR=/usr/include/${DEB_TARGET_MULTIARCH} -DLIB_INSTALL_DIR=/usr/lib/${DEB_TARGET_MULTIARCH} -DCOMPILE_TOOLS=OFF ..
+	cd obj-${DEB_TARGET_MULTIARCH} && cmake -DCMAKE_INSTALL_PREFIX=/usr -DINCLUDE_INSTALL_DIR=/usr/include/${DEB_TARGET_MULTIARCH} -DLIB_INSTALL_DIR=/usr/lib/${DEB_TARGET_MULTIARCH} -DCMAKE_LIBRARY_PATH="/lib/${DEB_TARGET_MULTIARCH};/usr/lib/${DEB_TARGET_MULTIARCH}" -DCOMPILE_TOOLS=OFF ..
 
 %:
 	dh $@ --buildsystem=cmake
