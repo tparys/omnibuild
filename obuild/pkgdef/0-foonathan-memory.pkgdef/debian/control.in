@@ -18,7 +18,7 @@ Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends}
-Description: eProsima CDR Packing/Unpacking (development)
+Description: STL compatible C++ memory allocator (development)
  STL compatible C++ memory allocator
  .
  This package contains the development files.
