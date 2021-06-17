@@ -1,2 +1,2 @@
-usr/bin/fastrtpsgen
-usr/share/fastrtpsgen/java/fastrtpsgen.jar
+usr/bin/fastddsgen
+usr/share/fastddsgen/java/fastddsgen.jar
