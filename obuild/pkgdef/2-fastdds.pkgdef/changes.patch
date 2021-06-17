@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 7ea7bad..da04c71 100644
+index 8a9cb02..da31093 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -23,6 +23,11 @@ if(PROJECT_SOURCE_DIR)
@@ -14,13 +14,22 @@ index 7ea7bad..da04c71 100644
  # Set CMAKE_BUILD_TYPE to Release by default.
  if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
      message(STATUS "Setting build type to 'Release' as none was specified.")
+@@ -225,7 +230,7 @@ if(NOT BUILD_SHARED_LIBS)
+ endif()
+ 
+ eprosima_find_package(fastcdr REQUIRED)
+-eprosima_find_thirdparty(Asio asio VERSION 1.10.8)
++eprosima_find_thirdparty(Asio asio VERSION 1.10.6)
+ eprosima_find_thirdparty(TinyXML2 tinyxml2)
+ 
+ find_package(foonathan_memory REQUIRED)
 diff --git a/src/cpp/CMakeLists.txt b/src/cpp/CMakeLists.txt
-index 1000e40..f4d7041 100644
+index d269152..4def8f0 100644
 --- a/src/cpp/CMakeLists.txt
 +++ b/src/cpp/CMakeLists.txt
-@@ -575,11 +575,7 @@ elseif(NOT EPROSIMA_INSTALLER)
+@@ -649,11 +649,7 @@ elseif(NOT EPROSIMA_INSTALLER)
  
-     export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-targets.cmake)
+     export(TARGETS ${PROJECT_NAME} eProsima_atomic FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-${FASTDDS_LINKING}-targets.cmake)
  
 -    if(INSTALLER_PLATFORM)
 -        set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
@@ -29,5 +38,5 @@ index 1000e40..f4d7041 100644
 -    endif()
 +    set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
  
-     install(EXPORT ${PROJECT_NAME}-targets
+     install(EXPORT ${PROJECT_NAME}-${FASTDDS_LINKING}-targets
          DESTINATION ${INSTALL_DESTINATION_PATH}
