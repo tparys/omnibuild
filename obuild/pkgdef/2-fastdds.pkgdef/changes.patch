@@ -35,9 +35,18 @@ index 8a9cb02..52e32dd 100644
  
  find_package(foonathan_memory REQUIRED)
 diff --git a/src/cpp/CMakeLists.txt b/src/cpp/CMakeLists.txt
-index d269152..4def8f0 100644
+index d269152..a9179b1 100644
 --- a/src/cpp/CMakeLists.txt
 +++ b/src/cpp/CMakeLists.txt
+@@ -456,7 +456,7 @@ elseif(NOT EPROSIMA_INSTALLER)
+     # Link library to external libraries.
+     target_link_libraries(${PROJECT_NAME} ${PRIVACY} fastcdr foonathan_memory
+         ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS}
+-        ${TINYXML2_LIBRARY}
++        tinyxml2
+         $<$<BOOL:${LINK_SSL}>:OpenSSL::SSL$<SEMICOLON>OpenSSL::Crypto$<$<BOOL:${WIN32}>:$<SEMICOLON>crypt32.lib>>
+         $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
+         ${THIRDPARTY_BOOST_LINK_LIBS}
 @@ -649,11 +649,7 @@ elseif(NOT EPROSIMA_INSTALLER)
  
      export(TARGETS ${PROJECT_NAME} eProsima_atomic FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-${FASTDDS_LINKING}-targets.cmake)
