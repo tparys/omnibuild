@@ -35,7 +35,8 @@ Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
-    libfastcdr1,
+    libfoonathan-memory0-dev,
+    libfastcdr1-dev,
     libfastdds2 (= ${binary:Version}),
 Description: eProsima DDS/RTPS Middleware (development)
  eProsima DDS/RTPS Middleware
