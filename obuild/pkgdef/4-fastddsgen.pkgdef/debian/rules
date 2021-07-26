@@ -13,9 +13,9 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	install -d debian/tmp/usr/bin
-	install scripts/fastddsgen debian/tmp/usr/bin
-	install -d debian/tmp/usr/share/fastddsgen/java
-	install ./build/libs/fastddsgen.jar debian/tmp/usr/share/fastddsgen/java
+	install scripts/fastrtpsgen debian/tmp/usr/bin
+	install -d debian/tmp/usr/share/fastrtpsgen/java
+	install ./build/libs/fastrtpsgen.jar debian/tmp/usr/share/fastrtpsgen/java
 
 %:
 	dh $@
