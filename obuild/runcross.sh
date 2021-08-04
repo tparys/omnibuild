@@ -2,7 +2,7 @@
 set -e
 
 ARCHS="amd64 armhf arm64"
-DISTROS="xenial" # bionic focal"
+DISTROS="xenial bionic focal"
 
 for DISTRO in ${DISTROS}; do
     CACHE_DIR=${PWD}/ccache/${DISTRO}
