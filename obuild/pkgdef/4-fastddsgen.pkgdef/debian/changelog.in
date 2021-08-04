@@ -1,4 +1,4 @@
-${DEB_PKG_NAME} (${DEB_VERSION}-${DEB_RELEASE}) UNRELEASED; urgency=medium
+${DEB_PKG_NAME} (${DEB_VERSION}-${DEB_RELEASE}) ${DEB_CODENAME}; urgency=medium
 
   * Auto packaged without history. (Closes: #1)
 

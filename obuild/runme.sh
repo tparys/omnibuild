@@ -74,7 +74,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
     # Build source package
     pushd ${SRC_DIR}
-    dpkg-source -b .
+    debuild -S -sa
     popd
 
     # Build for all specified architectures
@@ -125,7 +125,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
         popd
         DEB_BASE=${BASE_DIR}/debs/${DEB_CODENAME}
         mkdir -p ${DEB_BASE}/{src,all,${DEB_ARCH}}
-        cp *.dsc *tar* *.changes ${DEB_BASE}/src || true
+        cp *.dsc *tar* *.changes *.buildinfo ${DEB_BASE}/src || true
         cp *_all.deb ${DEB_BASE}/all || true
         cp *_${DEB_ARCH}.deb ${DEB_BASE}/${DEB_ARCH} || true
 
