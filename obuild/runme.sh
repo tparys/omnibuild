@@ -16,6 +16,11 @@ fi
 
 for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
+    # Skip disabled packages
+    if [ -f ${PKG_DIR}/disable ]; then
+	continue
+    fi
+
     # Load package definition
     if [ ! -f ${PKG_DIR}/settings.sh ]; then
         continue

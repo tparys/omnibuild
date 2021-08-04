@@ -25,6 +25,19 @@ Description: eProsima CDR Packing/Unpacking (library)
  .
  This package provides the runtime libraries.
 
+Package: libfastcdr1-dbg
+Section: libs
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    ${shlibs:Depends},
+Pre-Depends: ${misc:Pre-Depends}
+Description: eProsima CDR Packing/Unpacking (debug library)
+ eProsima CDR Packing/Unpacking
+ .
+ This package provides the runtime libraries with debug symbols.
+
 Package: libfastcdr1-dev
 Section: libdevel
 Architecture: linux-any

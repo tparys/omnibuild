@@ -29,6 +29,19 @@ Description: eProsima DDS/RTPS Middleware (library)
  .
  This package provides the runtime libraries.
 
+Package: libfastdds2-dbg
+Section: libs
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    ${shlibs:Depends},
+Pre-Depends: ${misc:Pre-Depends}
+Description: eProsima DDS/RTPS Middleware (debug library)
+ eProsima DDS/RTPS Middleware
+ .
+ This package provides the runtime libraries with debug symbols.
+
 Package: libfastdds2-dev
 Section: libdevel
 Architecture: linux-any
