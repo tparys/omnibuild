@@ -1,5 +1,8 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 114c3ba..7bd9333 100644
+Description: Enable ccache support
+Author: T Parys
+Forwarded: no
+Last-Update: 2021-08-04
+
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -22,6 +22,11 @@ if(PROJECT_SOURCE_DIR)

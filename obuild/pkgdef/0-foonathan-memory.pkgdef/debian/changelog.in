@@ -2,4 +2,4 @@ ${DEB_PKG_NAME} (${DEB_VERSION}-${DEB_RELEASE}) ${DEB_CODENAME}; urgency=medium
 
   * Auto packaged without history. (Closes: #1)
 
- -- ${DEB_MAINTAINER}  ${GIT_DATE}
+ -- ${DEB_MAINTAINER}  ${DEB_DATE}

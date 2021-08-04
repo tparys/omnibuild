@@ -39,28 +39,43 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     mkdir -p ${WORK_DIR}
     pushd ${WORK_DIR}
 
-    # Check out code
-    SRC_DIR_ORIG=$(basename ${GIT_REPO} .git)
-    git clone --branch ${GIT_TAG} --depth 1 ${GIT_REPO} ${SRC_DIR_ORIG}
+    # If Ubuntu Launchpad already has the file, we have to use that ...
+    SRC_PKG_NAME=${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz
+    if wget "https://launchpad.net/ubuntu/+archive/primary/+files/${SRC_PKG_NAME}"; then
 
-    # Apply source patch if present
-    if [ -f ${PKG_DIR}/changes.patch ]; then
+        # Use existing code
+        tar xf ${SRC_PKG_NAME}
+        SRC_DIR_ORIG=*-${DEB_VERSION}
+
+        # Date from downloaded file
+        export DEB_DATE=$(date -Rr ${SRC_PKG_NAME})
+
+    else
+
+        # Create new codebase from repo
+        SRC_DIR_ORIG=$(basename ${GIT_REPO} .git)
+        git clone --branch ${GIT_TAG} --depth 1 ${GIT_REPO} ${SRC_DIR_ORIG}
+
+        # Apply source patch if present
+        if [ -f ${PKG_DIR}/changes.patch ]; then
+            pushd ${SRC_DIR}
+            patch < ${PKG_DIR}/changes.patch
+            popd
+        fi
+
+        # Package up original source
+        tar zcf ${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz ${SRC_DIR_ORIG}
+
+        # Packaging date from most recent git commit
         pushd ${SRC_DIR_ORIG}
-        git apply ${PKG_DIR}/changes.patch
+        export DEB_DATE=$(git log --date=rfc | grep -m1 Date | cut -d ' ' -f 4-)
         popd
-    fi
 
-    # Package up original source
-    tar zcf ${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz ${SRC_DIR_ORIG}
+    fi
 
     # Rename original source to match debian conventions
     SRC_DIR=${DEB_PKG_NAME}-${DEB_VERSION}
     mv ${SRC_DIR_ORIG} ${SRC_DIR}
-
-    # Get date from git for reproducable builds
-    pushd ${SRC_DIR}
-    export GIT_DATE=$(git log --date=rfc | grep Date | cut -d ' ' -f 4-)
-    popd
 
     # Copy debian template into place & configure
     mkdir ${SRC_DIR}/debian
@@ -74,7 +89,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
     # Build source package
     pushd ${SRC_DIR}
-    debuild -S -sa
+    debuild -S -uc -us
     popd
 
     # Build for all specified architectures
@@ -109,7 +124,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
         # Build package(s)
         EXTRA_DPKG_ARGS="j4" # -uc -us
-        dpkg-buildpackage -b ${EXTRA_BUILD_ARGS} --host-arch=${DEB_ARCH}
+        dpkg-buildpackage -b ${EXTRA_BUILD_ARGS} -uc -us --host-arch=${DEB_ARCH}
 
         # Docker: Install dependencies in order
         if [ $UID -eq 0 ]; then
