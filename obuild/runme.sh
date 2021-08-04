@@ -7,7 +7,13 @@ BASE_DIR=${PWD}
 WORK_DIR=work
 DEB_ARCHS="${1}"
 export DEB_CODENAME=$(lsb_release -sc)
-export DEB_MAINTAINER="$(whoami) <$(git config --get user.email)>"
+if [ -d /docker-user ]; then
+    # Running within docker instance from runcross.sh
+    GIT_ARGS="-f /docker-user/.gitconfig"
+fi
+GIT_USER=$(git config ${GIT_ARGS} --get user.name)
+GIT_EMAIL=$(git config ${GIT_ARGS} --get user.email)
+export DEB_MAINTAINER="${GIT_USER//@*/} <${GIT_EMAIL}>"
 
 # If not specified, build for native architecture
 if [ -z "${DEB_ARCHS}" ]; then
@@ -18,7 +24,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
     # Skip disabled packages
     if [ -f ${PKG_DIR}/disable ]; then
-	continue
+        continue
     fi
 
     # Load package definition
@@ -66,6 +72,11 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     done
     popd
 
+    # Build source package
+    pushd ${SRC_DIR}
+    dpkg-source -b .
+    popd
+
     # Build for all specified architectures
     for DEB_ARCH in ${DEB_ARCHS}; do
 
@@ -91,14 +102,14 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
                 MISSING_PKGS=
                 for DEP in ${MISSING_DEPS}; do
                     DEBIAN_FRONTEND=noninteractive apt-get install -y ${DEP}:${DEB_ARCH} ||
-			DEBIAN_FRONTEND=noninteractive apt-get install -y ${DEP}:all
-		done
+                        DEBIAN_FRONTEND=noninteractive apt-get install -y ${DEP}:all
+                done
             fi
         fi
 
         # Build package(s)
-        dpkg-buildpackage -j4 -uc -us --host-arch=${DEB_ARCH}
-        #dpkg-buildpackage -uc -us --host-arch=${DEB_ARCH}
+        EXTRA_DPKG_ARGS="j4" # -uc -us
+        dpkg-buildpackage -b ${EXTRA_BUILD_ARGS} --host-arch=${DEB_ARCH}
 
         # Docker: Install dependencies in order
         if [ $UID -eq 0 ]; then
@@ -114,7 +125,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
         popd
         DEB_BASE=${BASE_DIR}/debs/${DEB_CODENAME}
         mkdir -p ${DEB_BASE}/{src,all,${DEB_ARCH}}
-        cp *.dsc *tar* ${DEB_BASE}/src || true
+        cp *.dsc *tar* *.changes ${DEB_BASE}/src || true
         cp *_all.deb ${DEB_BASE}/all || true
         cp *_${DEB_ARCH}.deb ${DEB_BASE}/${DEB_ARCH} || true
 
