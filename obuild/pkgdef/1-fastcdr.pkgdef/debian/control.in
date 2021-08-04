@@ -31,12 +31,12 @@ Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
-    ${shlibs:Depends},
+    libfastcdr1 (= ${binary:Version}),
 Pre-Depends: ${misc:Pre-Depends}
-Description: eProsima CDR Packing/Unpacking (debug library)
+Description: eProsima CDR Packing/Unpacking (debug)
  eProsima CDR Packing/Unpacking
  .
- This package provides the runtime libraries with debug symbols.
+ This package provides the detached debugging symbols.
 
 Package: libfastcdr1-dev
 Section: libdevel

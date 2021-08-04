@@ -35,12 +35,12 @@ Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
-    ${shlibs:Depends},
+    libfastdds2 (= ${binary:Version}),
 Pre-Depends: ${misc:Pre-Depends}
-Description: eProsima DDS/RTPS Middleware (debug library)
+Description: eProsima DDS/RTPS Middleware (debug)
  eProsima DDS/RTPS Middleware
  .
- This package provides the runtime libraries with debug symbols.
+ This package provides the detached debugging symbols.
 
 Package: libfastdds2-dev
 Section: libdevel
