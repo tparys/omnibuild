@@ -52,9 +52,20 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
     # Failing that, get from Github
     if [ ! -f ${SRC_PKG_PATH} ]; then
-        if wget "${GIT_REPO}/archive/refs/tags/${GIT_TAG}.tar.gz"; then
-            mv ${GIT_TAG}.tar.gz ${SRC_PKG_PATH}
-        fi
+        case "${GIT_REPO}" in
+            *.git)
+                # Clone repository w/ history
+                SRC_DIR_ORIG="$(basename "${GIT_REPO}" .git)-${GIT_TAG//v/}"
+                git clone -b "${GIT_TAG}" "${GIT_REPO}" ${SRC_DIR_ORIG}
+                tar czf ${SRC_PKG_PATH} ${SRC_DIR_ORIG}
+                ;;
+
+            *)
+                # Download archive export
+                if wget "${GIT_REPO}/archive/refs/tags/${GIT_TAG}.tar.gz"; then
+                    mv ${GIT_TAG}.tar.gz ${SRC_PKG_PATH}
+                fi
+        esac
     fi
 
     # Still nothing?
