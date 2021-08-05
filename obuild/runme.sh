@@ -39,39 +39,37 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     mkdir -p ${WORK_DIR}
     pushd ${WORK_DIR}
 
-    # If Ubuntu Launchpad already has the file, we have to use that ...
-    SRC_PKG_NAME=${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz
-    if wget "https://launchpad.net/ubuntu/+archive/primary/+files/${SRC_PKG_NAME}"; then
+    # Locate/get the code
+    ARCHIVE_DIR=${BASE_DIR}/archive
+    mkdir -p ${ARCHIVE_DIR}
+    SRC_PKG_FILE=${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz
+    SRC_PKG_PATH=${ARCHIVE_DIR}/${SRC_PKG_FILE}
 
-        # Use existing code
-        tar xf ${SRC_PKG_NAME}
-        SRC_DIR_ORIG=*-${DEB_VERSION}
-
-        # Date from downloaded file
-        export DEB_DATE=$(date -Rr ${SRC_PKG_NAME})
-
-    else
-
-        # Create new codebase from repo
-        SRC_DIR_ORIG=$(basename ${GIT_REPO} .git)
-        git clone --branch ${GIT_TAG} --depth 1 ${GIT_REPO} ${SRC_DIR_ORIG}
-
-        # Apply source patch if present
-        if [ -f ${PKG_DIR}/changes.patch ]; then
-            pushd ${SRC_DIR}
-            patch < ${PKG_DIR}/changes.patch
-            popd
-        fi
-
-        # Package up original source
-        tar zcf ${DEB_PKG_NAME}_${DEB_VERSION}.orig.tar.gz ${SRC_DIR_ORIG}
-
-        # Packaging date from most recent git commit
-        pushd ${SRC_DIR_ORIG}
-        export DEB_DATE=$(git log --date=rfc | grep -m1 Date | cut -d ' ' -f 4-)
-        popd
-
+    # Try to get from Ubuntu Launchpad if we don't have it yet
+    if [ ! -f ${SRC_PKG_PATH} ]; then
+        wget -P ${ARCHIVE_DIR} "https://launchpad.net/ubuntu/+archive/primary/+files/${SRC_PKG_FILE}" || true
     fi
+
+    # Failing that, get from Github
+    if [ ! -f ${SRC_PKG_PATH} ]; then
+        if wget "${GIT_REPO}/archive/refs/tags/${GIT_TAG}.tar.gz"; then
+            mv ${GIT_TAG}.tar.gz ${SRC_PKG_PATH}
+        fi
+    fi
+
+    # Still nothing?
+    if [ ! -f ${SRC_PKG_PATH} ]; then
+        echo "Cannot find source code .. abort"
+        exit 1
+    fi
+
+    # Use existing code
+    cp ${SRC_PKG_PATH} ${SRC_PKG_FILE}
+    tar xf ${SRC_PKG_FILE}
+    SRC_DIR_ORIG=*-${DEB_VERSION}
+
+    # Date from downloaded file
+    export DEB_DATE=$(date -Rr ${SRC_DIR_ORIG})
 
     # Rename original source to match debian conventions
     SRC_DIR=${DEB_PKG_NAME}-${DEB_VERSION}
