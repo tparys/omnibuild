@@ -8,6 +8,7 @@ Build-Depends:
     cmake,
     libasio-dev,
     libfastcdr1-dev,
+    libfoonathan-memory0-dev,
     libssl-dev,
     libtinyxml2-dev,
 Rules-Requires-Root: no

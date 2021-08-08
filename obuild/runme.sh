@@ -16,9 +16,9 @@ GIT_EMAIL=$(git config ${GIT_ARGS} --get user.email)
 export DEB_MAINTAINER="${GIT_USER//@*/} <${GIT_EMAIL}>"
 
 # If not specified, build for native architecture
-if [ -z "${DEB_ARCHS}" ]; then
-    DEB_ARCHS=$(dpkg --print-architecture)
-fi
+#if [ $# -eq 1 ]; then
+#    DEB_ARCHS=$(dpkg --print-architecture)
+#fi
 
 for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
@@ -96,10 +96,21 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     done
     popd
 
+    # Post configure adjustments
+    if [ -f ${PKG_DIR}/postconf.sh ]; then
+        . ${PKG_DIR}/postconf.sh
+    fi
+
     # Build source package
     pushd ${SRC_DIR}
-    debuild -S -uc -us
+    debuild -S -uc -us --no-check-builddeps || \
+        debuild -S -uc -us
     popd
+
+    # Copy out source package
+    DEB_BASE=${BASE_DIR}/debs/${DEB_CODENAME}
+    mkdir -p ${DEB_BASE}/src
+    cp *.dsc *tar* *.changes *.buildinfo ${DEB_BASE}/src || true
 
     # Build for all specified architectures
     for DEB_ARCH in ${DEB_ARCHS}; do
@@ -147,9 +158,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
         # (FIXME) Sort out build products
         popd
-        DEB_BASE=${BASE_DIR}/debs/${DEB_CODENAME}
-        mkdir -p ${DEB_BASE}/{src,all,${DEB_ARCH}}
-        cp *.dsc *tar* *.changes *.buildinfo ${DEB_BASE}/src || true
+        mkdir -p ${DEB_BASE}/{all,${DEB_ARCH}}
         cp *_all.deb ${DEB_BASE}/all || true
         cp *_${DEB_ARCH}.deb ${DEB_BASE}/${DEB_ARCH} || true
 

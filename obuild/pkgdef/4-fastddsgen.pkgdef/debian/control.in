@@ -5,6 +5,7 @@ Maintainer: ${DEB_MAINTAINER}
 Build-Depends:
     debhelper (>=8),
     lsb-release,
+    default-jdk,
 Rules-Requires-Root: no
 Standards-Version: 4.3.0
 Homepage: https://www.eprosima.com
