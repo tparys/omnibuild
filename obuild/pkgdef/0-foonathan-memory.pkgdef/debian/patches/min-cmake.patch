@@ -1,0 +1,16 @@
+Description: Reduce minimum CMake required to build
+Author: T Parys
+Forwarded: no
+Last-Update: 2022-08-01
+
+--- foonathan-memory-0.7.1.orig/CMakeLists.txt
++++ foonathan-memory-0.7.1/CMakeLists.txt
+@@ -4,7 +4,7 @@
+ 
+ # root CMakeLists.txt, specifies option and interface library
+ 
+-cmake_minimum_required(VERSION 3.11)
++cmake_minimum_required(VERSION 3.5.1)
+ project(FOONATHAN_MEMORY)
+ 
+ find_program(CCACHE_FOUND ccache)

@@ -77,7 +77,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
     # Use existing code
     cp ${SRC_PKG_PATH} ${SRC_PKG_FILE}
     tar xf ${SRC_PKG_FILE}
-    SRC_DIR_ORIG=*-${DEB_VERSION}
+    SRC_DIR_ORIG=$(\ls | grep -v ${SRC_PKG_FILE})
 
     # Date from downloaded file
     export DEB_DATE=$(date -Rr ${SRC_DIR_ORIG})

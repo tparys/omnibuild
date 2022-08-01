@@ -1,26 +1,31 @@
 Description: CMake fixups for Debian multiarch support
 Author: T Parys
 Forwarded: no
-Last-Update: 2021-08-04
+Last-Update: 2022-08-01
 
---- Fast-DDS-2.3.4/CMakeLists.txt	2021-08-02 04:07:30.000000000 -0400
-+++ fastdds-2.3.4/CMakeLists.txt	2021-08-05 11:29:30.415705417 -0400
-@@ -177,10 +177,10 @@
- ###############################################################################
- # Installation paths
- ###############################################################################
+--- Fast-DDS-2.7.1/CMakeLists.txt	2021-08-02 04:07:30.000000000 -0400
++++ fastdds-2.7.1x/CMakeLists.txt	2021-08-05 11:29:30.415705417 -0400
+@@ -112,15 +112,15 @@
+   overriding this package from a merged catkin, ament, or colcon workspace."
+   OFF)
+ 
 -set(BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for binaries")
--set(INCLUDE_INSTALL_DIR include/ CACHE PATH "Installation directory for C++ headers")
++set(BIN_INSTALL_DIR bin/ CACHE STRING "Installation directory for binaries")
+ set(_include_dir "include/")
+ if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
+   string(APPEND _include_dir "${PROJECT_NAME}/")
+ endif()
+-set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE PATH "Installation directory for C++ headers")
++set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE STRING "Installation directory for C++ headers")
+ unset(_include_dir)
 -set(LIB_INSTALL_DIR lib/ CACHE PATH "Installation directory for libraries")
 -set(DATA_INSTALL_DIR share/ CACHE PATH "Installation directory for data")
-+set(BIN_INSTALL_DIR bin/ CACHE STRING "Installation directory for binaries")
-+set(INCLUDE_INSTALL_DIR include/ CACHE STRING "Installation directory for C++ headers")
 +set(LIB_INSTALL_DIR lib/ CACHE STRING "Installation directory for libraries")
 +set(DATA_INSTALL_DIR share/ CACHE STRING "Installation directory for data")
  if(WIN32)
      set(DOC_DIR "doc")
  else()
-@@ -225,7 +225,7 @@
+@@ -161,7 +161,7 @@
  endif()
  
  eprosima_find_package(fastcdr REQUIRED)
@@ -29,28 +34,31 @@ Last-Update: 2021-08-04
  eprosima_find_thirdparty(TinyXML2 tinyxml2)
  
  find_package(foonathan_memory REQUIRED)
-diff -urN Fast-DDS-2.3.4/src/cpp/CMakeLists.txt fastdds-2.3.4/src/cpp/CMakeLists.txt
---- Fast-DDS-2.3.4/src/cpp/CMakeLists.txt	2021-08-02 04:07:30.000000000 -0400
-+++ fastdds-2.3.4/src/cpp/CMakeLists.txt	2021-08-05 11:30:44.435737178 -0400
-@@ -456,7 +456,7 @@
-     # Link library to external libraries.
-     target_link_libraries(${PROJECT_NAME} ${PRIVACY} fastcdr foonathan_memory
-         ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS}
--        ${TINYXML2_LIBRARY}
-+        tinyxml2
-         $<$<BOOL:${LINK_SSL}>:OpenSSL::SSL$<SEMICOLON>OpenSSL::Crypto$<$<BOOL:${WIN32}>:$<SEMICOLON>crypt32.lib>>
-         $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
-         ${THIRDPARTY_BOOST_LINK_LIBS}
-@@ -649,11 +649,7 @@
+Binary files Fast-DDS.orig/.git/index and Fast-DDS/.git/index differ
+diff -urN Fast-DDS.orig/src/cpp/CMakeLists.txt Fast-DDS/src/cpp/CMakeLists.txt
+--- Fast-DDS.orig/src/cpp/CMakeLists.txt	2022-08-01 11:10:04.472215345 -0400
++++ Fast-DDS/src/cpp/CMakeLists.txt	2022-08-01 11:17:07.809654466 -0400
+@@ -437,7 +437,7 @@
+ # Link library to external libraries.
+ target_link_libraries(${PROJECT_NAME} ${PRIVACY} fastcdr foonathan_memory
+     ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS}
+-    ${TINYXML2_LIBRARY}
++    tinyxml2
+     $<$<BOOL:${LINK_SSL}>:OpenSSL::SSL$<SEMICOLON>OpenSSL::Crypto$<$<BOOL:${WIN32}>:$<SEMICOLON>crypt32.lib>>
+     $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
+     ${THIRDPARTY_BOOST_LINK_LIBS}
+@@ -573,12 +573,8 @@
  
-     export(TARGETS ${PROJECT_NAME} eProsima_atomic FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-${FASTDDS_LINKING}-targets.cmake)
+ export(TARGETS ${PROJECT_NAME} eProsima_atomic FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-${FASTDDS_LINKING}-targets.cmake)
  
--    if(INSTALLER_PLATFORM)
--        set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
--    else()
--        set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}/cmake${MSVCARCH_DIR_EXTENSION_EXT})
--    endif()
-+    set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
- 
-     install(EXPORT ${PROJECT_NAME}-${FASTDDS_LINKING}-targets
-         DESTINATION ${INSTALL_DESTINATION_PATH}
+-if(INSTALLER_PLATFORM)
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
+-else()
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}/cmake${MSVCARCH_DIR_EXTENSION_EXT})
+-endif()
+-
++set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
++ 
+ install(EXPORT ${PROJECT_NAME}-${FASTDDS_LINKING}-targets
+     DESTINATION ${INSTALL_DESTINATION_PATH}
+     COMPONENT cmake
