@@ -8,7 +8,7 @@ override_dh_autoreconf:
 
 override_dh_auto_configure:
 	install -d obj-${DEB_TARGET_MULTIARCH}
-	cd obj-${DEB_TARGET_MULTIARCH} && cmake -DCMAKE_EXE_LINKER_FLAGS=-static -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_INCLUDEDIR=include/${DEB_TARGET_MULTIARCH} -DCMAKE_INSTALL_BINDIR=lib/${DEB_TARGET_MULTIARCH}/foonathan-memory -DFOONATHAN_MEMORY_BUILD_TESTS=OFF -DFOONATHAN_MEMORY_BUILD_TOOLS=ON .. && make foonathan_memory_node_size_debugger && ./tool/nodesize_dbg --code > src/container_node_sizes_impl.hpp
+	cd obj-${DEB_TARGET_MULTIARCH} && cmake -DCMAKE_C_COMPILER=/usr/bin/${DEB_TARGET_GNU_TYPE}-gcc -DCMAKE_CXX_COMPILER=/usr/bin/${DEB_TARGET_GNU_TYPE}-g++ -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_INCLUDEDIR=include/${DEB_TARGET_MULTIARCH} -DCMAKE_INSTALL_BINDIR=lib/${DEB_TARGET_MULTIARCH}/foonathan-memory -DFOONATHAN_MEMORY_BUILD_TESTS=OFF -DFOONATHAN_MEMORY_BUILD_TOOLS=ON .. && make foonathan_memory_node_size_debugger && ./tool/nodesize_dbg --code > src/container_node_sizes_impl.hpp
 
 %:
 	dh $@ --buildsystem=cmake

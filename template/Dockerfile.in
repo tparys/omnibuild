@@ -3,5 +3,5 @@ LABEL stage=builder
 
 # Multiarch apt
 COPY apt/${DISTRO}.list /etc/apt/sources.list
-COPY setup.sh /
+COPY setup.sh qemu-binfmt-fixer.cpp /
 RUN /bin/bash setup.sh ${DISTRO} ${CODENAME} "${EXTRA_ARCH}"

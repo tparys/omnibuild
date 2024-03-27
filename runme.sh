@@ -3,7 +3,7 @@ set -e
 
 # Configuration (TBD - parse args)
 export DISTRO=ubuntu
-export CODENAME=xenial
+export CODENAME=jammy
 export EXTRA_ARCH="armhf arm64"
 BUILD_CONTEXT=build
 
