@@ -1,0 +1,13 @@
+diff -urN Fast-CDR/CMakeLists.txt Fast-CDR.new/CMakeLists.txt
+--- Fast-CDR/CMakeLists.txt	2024-03-27 08:24:39.765636540 -0400
++++ Fast-CDR.new/CMakeLists.txt	2024-03-27 08:37:21.347574180 -0400
+@@ -15,7 +15,7 @@
+ ###############################################################################
+ # CMake build rules for FastCDR                                               #
+ ###############################################################################
+-cmake_minimum_required(VERSION 3.20)
++cmake_minimum_required(VERSION 3.16)
+ 
+ # Set CMAKE_BUILD_TYPE to Release by default.
+ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+Binary files Fast-CDR/.git/index and Fast-CDR.new/.git/index differ

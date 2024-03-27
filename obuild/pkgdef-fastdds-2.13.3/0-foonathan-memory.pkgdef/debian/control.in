@@ -1,0 +1,24 @@
+Source: foonathan-memory
+Section: admin
+Priority: optional
+Maintainer: ${DEB_MAINTAINER}
+Build-Depends:
+    debhelper (>=8),
+    lsb-release,
+    cmake,
+Rules-Requires-Root: no
+Standards-Version: 4.3.0
+Homepage: https://github.com/foonathan/memory
+Vcs-Git: https://github.com/foonathan/memory.git
+Vcs-Browser: https://github.com/foonathan/memory
+
+Package: libfoonathan-memory0-dev
+Section: libdevel
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends}
+Description: STL compatible C++ memory allocator (development)
+ STL compatible C++ memory allocator
+ .
+ This package contains the development files.

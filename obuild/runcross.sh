@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-ARCHS="amd64" # armhf arm64"
-DISTROS="focal" # jammy"
+ARCHS="amd64 armhf arm64"
+DISTROS="focal jammy"
 
 for DISTRO in ${DISTROS}; do
     CACHE_DIR=${PWD}/ccache/${DISTRO}

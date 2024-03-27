@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9c8808660..5882a8f4b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -26,6 +26,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+ endif()
+ 
++find_program(CCACHE_FOUND ccache)
++if(CCACHE_FOUND)
++    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
++endif(CCACHE_FOUND)
++
+ ###############################################################################
+ # Project                                                                     #
+ ###############################################################################

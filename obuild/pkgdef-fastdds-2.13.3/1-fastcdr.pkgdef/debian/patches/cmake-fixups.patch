@@ -1,0 +1,51 @@
+diff -urN Fast-CDR/CMakeLists.txt Fast-CDR.new/CMakeLists.txt
+--- Fast-CDR/CMakeLists.txt	2024-03-27 08:24:39.765636540 -0400
++++ Fast-CDR.new/CMakeLists.txt	2024-03-27 08:26:28.185308269 -0400
+@@ -103,22 +103,22 @@
+   overriding this package from a merged catkin, ament, or colcon workspace."
+   OFF)
+ 
+-set(BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for binaries")
++set(BIN_INSTALL_DIR bin/ CACHE STRING "Installation directory for binaries")
+ set(_include_dir "include/")
+ if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
+   string(APPEND _include_dir "${PROJECT_NAME}/")
+ endif()
+-set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE PATH "Installation directory for C++ headers")
++set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE STRING "Installation directory for C++ headers")
+ unset(_include_dir)
+-set(LIB_INSTALL_DIR lib${LIB_SUFFIX}/ CACHE PATH "Installation directory for libraries")
+-set(DATA_INSTALL_DIR share/ CACHE PATH "Installation directory for data")
++set(LIB_INSTALL_DIR lib${LIB_SUFFIX}/ CACHE STRING "Installation directory for libraries")
++set(DATA_INSTALL_DIR share/ CACHE STRING "Installation directory for data")
+ if(WIN32)
+     set(DOC_DIR "doc")
+ else()
+     set(DOC_DIR "${DATA_INSTALL_DIR}/doc")
+ endif()
+-set(DOC_INSTALL_DIR ${DOC_DIR} CACHE PATH "Installation directory for documentation")
+-set(LICENSE_INSTALL_DIR ${DATA_INSTALL_DIR}/${PROJECT_NAME} CACHE PATH "Installation directory for licenses")
++set(DOC_INSTALL_DIR ${DOC_DIR} CACHE STRING "Installation directory for documentation")
++set(LICENSE_INSTALL_DIR ${DATA_INSTALL_DIR}/${PROJECT_NAME} CACHE STRING "Installation directory for licenses")
+ 
+ ###############################################################################
+ # Compile library.
+Binary files Fast-CDR/.git/index and Fast-CDR.new/.git/index differ
+diff -urN Fast-CDR/src/cpp/CMakeLists.txt Fast-CDR.new/src/cpp/CMakeLists.txt
+--- Fast-CDR/src/cpp/CMakeLists.txt	2024-03-27 08:24:39.769636529 -0400
++++ Fast-CDR.new/src/cpp/CMakeLists.txt	2024-03-27 08:27:32.521115774 -0400
+@@ -130,12 +130,8 @@
+     set(FASTCDR_LINKING static)
+ endif()
+ 
+-if(INSTALLER_PLATFORM)
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
+-else()
+-    set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
+-endif()
+-
++set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
++ 
+ install(EXPORT ${PROJECT_NAME}-targets
+     DESTINATION ${INSTALL_DESTINATION_PATH}
+     FILE ${PROJECT_NAME}-${FASTCDR_LINKING}-targets.cmake

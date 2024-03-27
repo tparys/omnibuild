@@ -1,0 +1,76 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5ccb97a1b..9c8808660 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -186,22 +186,22 @@ option(APPEND_PROJECT_NAME_TO_INCLUDEDIR
+   overriding this package from a merged catkin, ament, or colcon workspace."
+   OFF)
+ 
+-set(BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for binaries")
++set(BIN_INSTALL_DIR bin/ CACHE STRING "Installation directory for binaries")
+ set(_include_dir "include/")
+ if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
+   string(APPEND _include_dir "${PROJECT_NAME}/")
+ endif()
+-set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE PATH "Installation directory for C++ headers")
++set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE STRING "Installation directory for C++ headers")
+ unset(_include_dir)
+-set(LIB_INSTALL_DIR lib${LIB_SUFFIX}/ CACHE PATH "Installation directory for libraries")
+-set(DATA_INSTALL_DIR share/ CACHE PATH "Installation directory for data")
++set(LIB_INSTALL_DIR lib/ CACHE STRING "Installation directory for libraries")
++set(DATA_INSTALL_DIR share/ CACHE STRING "Installation directory for data")
+ if(WIN32)
+     set(DOC_DIR "doc")
+ else()
+     set(DOC_DIR "${DATA_INSTALL_DIR}/doc")
+ endif()
+-set(DOC_INSTALL_DIR ${DOC_DIR} CACHE PATH "Installation directory for documentation")
+-set(LICENSE_INSTALL_DIR ${DATA_INSTALL_DIR}/${PROJECT_NAME} CACHE PATH "Installation directory for licenses")
++set(DOC_INSTALL_DIR ${DOC_DIR} CACHE STRING "Installation directory for documentation")
++set(LICENSE_INSTALL_DIR ${DATA_INSTALL_DIR}/${PROJECT_NAME} CACHE STRING "Installation directory for licenses")
+ 
+ ###############################################################################
+ # Internal debug messages
+diff --git a/src/cpp/CMakeLists.txt b/src/cpp/CMakeLists.txt
+index c82588394..ef3bf749a 100644
+--- a/src/cpp/CMakeLists.txt
++++ b/src/cpp/CMakeLists.txt
+@@ -504,7 +504,7 @@ endif()
+ # Link library to external libraries.
+ target_link_libraries(${PROJECT_NAME} ${PRIVACY} fastcdr foonathan_memory
+     ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS}
+-    ${TINYXML2_LIBRARY}
++    tinyxml2
+     $<$<BOOL:${LINK_SSL}>:OpenSSL::SSL$<SEMICOLON>OpenSSL::Crypto$<$<BOOL:${WIN32}>:$<SEMICOLON>crypt32.lib>>
+     $<$<BOOL:${WIN32}>:iphlpapi$<SEMICOLON>Shlwapi>
+     ${THIRDPARTY_BOOST_LINK_LIBS}
+@@ -646,11 +646,7 @@ else()
+     set(FASTDDS_LINKING static)
+ endif()
+ 
+-if(INSTALLER_PLATFORM)
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
+-else()
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}/cmake${MSVCARCH_DIR_EXTENSION_EXT})
+-endif()
++set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
+ 
+ install(EXPORT ${PROJECT_NAME}-targets
+     DESTINATION ${INSTALL_DESTINATION_PATH}
+diff --git a/thirdparty/optionparser/CMakeLists.txt b/thirdparty/optionparser/CMakeLists.txt
+index 6615873d0..3770e1f77 100644
+--- a/thirdparty/optionparser/CMakeLists.txt
++++ b/thirdparty/optionparser/CMakeLists.txt
+@@ -45,11 +45,7 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+     PATTERN "*.hpp"
+     )
+ 
+-if(INSTALLER_PLATFORM)
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${CMAKE_PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
+-else()
+-    set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${CMAKE_PROJECT_NAME}/cmake)
+-endif()
++set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
+ 
+ # export library
+ install(EXPORT optionparser-targets

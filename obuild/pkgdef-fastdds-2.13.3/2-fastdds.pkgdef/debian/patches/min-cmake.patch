@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5882a8f4b..a493a3ad6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,7 +15,7 @@
+ ###############################################################################
+ # CMake build rules for Fast DDS
+ ###############################################################################
+-cmake_minimum_required(VERSION 3.20)
++cmake_minimum_required(VERSION 3.16)
+ 
+ # Set CMAKE_BUILD_TYPE to Release by default.
+ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+diff --git a/thirdparty/optionparser/CMakeLists.txt b/thirdparty/optionparser/CMakeLists.txt
+index 3770e1f77..fa6a02996 100644
+--- a/thirdparty/optionparser/CMakeLists.txt
++++ b/thirdparty/optionparser/CMakeLists.txt
+@@ -12,7 +12,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-cmake_minimum_required(VERSION 3.20)
++cmake_minimum_required(VERSION 3.16)
+ 
+ #####################################################################################
+ #                             Interface Library

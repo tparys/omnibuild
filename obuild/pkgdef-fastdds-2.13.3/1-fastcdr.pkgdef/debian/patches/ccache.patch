@@ -1,0 +1,16 @@
+diff -urN Fast-CDR/CMakeLists.txt Fast-CDR.new/CMakeLists.txt
+--- Fast-CDR/CMakeLists.txt	2024-03-27 08:24:39.765636540 -0400
++++ Fast-CDR.new/CMakeLists.txt	2024-03-27 08:37:01.263461509 -0400
+@@ -26,6 +26,11 @@
+     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+ endif()
+ 
++find_program(CCACHE_FOUND ccache)
++if(CCACHE_FOUND)
++    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
++endif(CCACHE_FOUND)
++
+ # Set BUILD_TESTING to OFF by default.
+ if(NOT BUILD_TESTING)
+     message(STATUS "Tests not compiled by default")
+Binary files Fast-CDR/.git/index and Fast-CDR.new/.git/index differ

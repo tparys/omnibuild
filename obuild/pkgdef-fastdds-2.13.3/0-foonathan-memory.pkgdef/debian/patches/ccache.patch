@@ -1,0 +1,19 @@
+Description: Enable ccache support
+Author: T Parys
+Forwarded: no
+Last-Update: 2022-08-01
+
+--- foonathan-memory-0.7.3.orig/CMakeLists.txt
++++ foonathan-memory-0.7.3/CMakeLists.txt
+@@ -7,6 +7,11 @@
+ cmake_minimum_required(VERSION 3.14)
+ project(FOONATHAN_MEMORY)
+ 
++find_program(CCACHE_FOUND ccache)
++if(CCACHE_FOUND)
++    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
++endif(CCACHE_FOUND)
++
+ set(FOONATHAN_MEMORY_VERSION_MAJOR 0 CACHE STRING "major version of memory" FORCE)
+ set(FOONATHAN_MEMORY_VERSION_MINOR 7 CACHE STRING "minor version of memory" FORCE)
+ set(FOONATHAN_MEMORY_VERSION_PATCH 3 CACHE STRING "patch version of memory" FORCE)
