@@ -1,0 +1,61 @@
+Source: cyclonedds
+Section: admin
+Priority: optional
+Maintainer: ${DEB_MAINTAINER}
+Build-Depends:
+    debhelper (>=8),
+    lsb-release,
+    cmake,
+    libssl-dev,
+Rules-Requires-Root: no
+Standards-Version: 4.3.0
+Homepage: https://cyclonedds.io/
+Vcs-Git: https://github.com/eclipse-cyclonedds/cyclonedds.git
+Vcs-Browser: https://github.com/eclipse-cyclonedds/cyclonedds
+
+Package: libcyclonedds0
+Section: libdevel
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends}
+Description: Cyclone DDS Middleware (library)
+ Eclipse Foundation Cyclone DDS Middleware
+ .
+ This package contains the development files.
+
+Package: libcyclonedds0-dbg
+Section: libs
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    libcyclonedds0 (= ${binary:Version}),
+Pre-Depends: ${misc:Pre-Depends}
+Description: Cyclone DDS Middleware (debug)
+ Eclipse Foundation Cyclone DDS Middleware
+ .
+ This package provides the detached debugging symbols.
+
+Package: libcyclonedds0-dev
+Section: libdevel
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    libssl-dev,
+Description: Cyclone DDS Middleware (development)
+ Eclipse Foundation Cyclone DDS Middleware
+ .
+ This package contains the development files.
+
+Package: cyclonedds-tools
+Section: libdevel
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+Description: Cyclone DDS Middleware (tools)
+ Eclipse Foundation Cyclone DDS Middleware
+ .
+ This package contains the tools.
