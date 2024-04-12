@@ -12,7 +12,7 @@ Homepage: https://www.eprosima.com
 Vcs-Git: https://github.com/eProsima/Fast-CDR.git
 Vcs-Browser: https://github.com/eProsima/Fast-CDR
 
-Package: libfastcdr1
+Package: libfastcdr2
 Section: libs
 Architecture: linux-any
 Multi-Arch: same
@@ -25,26 +25,26 @@ Description: eProsima CDR Packing/Unpacking (library)
  .
  This package provides the runtime libraries.
 
-Package: libfastcdr1-dbg
+Package: libfastcdr2-dbg
 Section: libs
 Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
-    libfastcdr1 (= ${binary:Version}),
+    libfastcdr2 (= ${binary:Version}),
 Pre-Depends: ${misc:Pre-Depends}
 Description: eProsima CDR Packing/Unpacking (debug)
  eProsima CDR Packing/Unpacking
  .
  This package provides the detached debugging symbols.
 
-Package: libfastcdr1-dev
+Package: libfastcdr2-dev
 Section: libdevel
 Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
-    libfastcdr1 (= ${binary:Version}),
+    libfastcdr2 (= ${binary:Version}),
 Description: eProsima CDR Packing/Unpacking (development)
  eProsima CDR Packing/Unpacking
  .

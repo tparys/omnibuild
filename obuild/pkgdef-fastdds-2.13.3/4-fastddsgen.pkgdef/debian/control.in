@@ -18,8 +18,8 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
     ${misc:Depends},
-    libfastcdr1-dev,
-    libfastdds2-dev,
+    libfastcdr2-dev,
+    libfastdds2.13-dev,
 Pre-Depends: ${misc:Pre-Depends}
 Description: eProsima DDS/RTPS Middleware IDL Compiler
  eProsima DDS/RTPS Middleware IDL Compiler

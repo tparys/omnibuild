@@ -7,7 +7,7 @@ Build-Depends:
     lsb-release,
     cmake,
     libasio-dev,
-    libfastcdr1-dev,
+    libfastcdr2-dev,
     libfoonathan-memory0-dev,
     libssl-dev,
     libtinyxml2-dev,
@@ -17,7 +17,7 @@ Homepage: https://www.eprosima.com
 Vcs-Git: https://github.com/eProsima/Fast-DDS.git
 Vcs-Browser: https://github.com/eProsima/Fast-DDS
 
-Package: libfastdds2
+Package: libfastdds2.13
 Section: libs
 Architecture: linux-any
 Multi-Arch: same
@@ -30,28 +30,28 @@ Description: eProsima DDS/RTPS Middleware (library)
  .
  This package provides the runtime libraries.
 
-Package: libfastdds2-dbg
+Package: libfastdds2.13-dbg
 Section: libs
 Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
-    libfastdds2 (= ${binary:Version}),
+    libfastdds2.13 (= ${binary:Version}),
 Pre-Depends: ${misc:Pre-Depends}
 Description: eProsima DDS/RTPS Middleware (debug)
  eProsima DDS/RTPS Middleware
  .
  This package provides the detached debugging symbols.
 
-Package: libfastdds2-dev
+Package: libfastdds2.13-dev
 Section: libdevel
 Architecture: linux-any
 Multi-Arch: same
 Depends:
     ${misc:Depends},
     libfoonathan-memory0-dev,
-    libfastcdr1-dev,
-    libfastdds2 (= ${binary:Version}),
+    libfastcdr2-dev,
+    libfastdds2.13 (= ${binary:Version}),
 Description: eProsima DDS/RTPS Middleware (development)
  eProsima DDS/RTPS Middleware
  .
