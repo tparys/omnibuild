@@ -84,7 +84,9 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
 
     # Rename original source to match debian conventions
     SRC_DIR=${DEB_PKG_NAME}-${DEB_VERSION}
-    mv ${SRC_DIR_ORIG} ${SRC_DIR}
+    if [ "${SRC_DIR_ORIG}" != "${SRC_DIR}" ]; then
+	mv ${SRC_DIR_ORIG} ${SRC_DIR}
+    fi
 
     # Copy debian template into place & configure
     mkdir ${SRC_DIR}/debian
@@ -130,7 +132,7 @@ for PKG_DIR in ${BASE_DIR}/pkgdef/*.pkgdef; do
         # Check build dependencies
         pushd ${SRC_DIR}
         if ! (dpkg-checkbuilddeps -a ${DEB_ARCH} > ../.depinfo 2>&1 ); then
-            MISSING_DEPS=$(cut -d : -f 4- < ../.depinfo)
+            MISSING_DEPS=$(cut -d : -f 4- < ../.depinfo | sed -e 's,([^)]\+),,g')
             if [ $UID -ne 0 ]; then
                 echo "Missing Dependencies: ${MISSING_DEP}"
             else

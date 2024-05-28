@@ -1,0 +1,52 @@
+diff -urN fastcdr-1.0.24.orig/CMakeLists.txt fastcdr-1.0.24/CMakeLists.txt
+--- fastcdr-1.0.24.orig/CMakeLists.txt	2022-03-15 07:53:38.000000000 -0400
++++ fastcdr-1.0.24/CMakeLists.txt	2022-08-09 17:20:57.330320905 -0400
+@@ -151,25 +151,25 @@
+   overriding this package from a merged catkin, ament, or colcon workspace."
+   OFF)
+ 
+-set(BIN_INSTALL_DIR bin/ CACHE PATH "Installation directory for binaries")
++set(BIN_INSTALL_DIR bin/ CACHE STRING "Installation directory for binaries")
+ set(_include_dir "include/")
+ if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
+   string(APPEND _include_dir "${PROJECT_NAME}/")
+ endif()
+-set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE PATH "Installation directory for C++ headers")
++set(INCLUDE_INSTALL_DIR "${_include_dir}" CACHE STRING "Installation directory for C++ headers")
+ unset(_include_dir)
+-set(LIB_INSTALL_DIR lib${LIB_SUFFIX}/ CACHE PATH "Installation directory for libraries")
+-set(DATA_INSTALL_DIR share/ CACHE PATH "Installation directory for data")
++set(LIB_INSTALL_DIR lib${LIB_SUFFIX}/ CACHE STRING "Installation directory for libraries")
++set(DATA_INSTALL_DIR share/ CACHE STRING "Installation directory for data")
+ if(WIN32)
+     set(DOC_DIR "doc")
+ else()
+     set(DOC_DIR "${DATA_INSTALL_DIR}/doc")
+ endif()
+-set(DOC_INSTALL_DIR ${DOC_DIR} CACHE PATH "Installation directory for documentation")
++set(DOC_INSTALL_DIR ${DOC_DIR} CACHE STRING "Installation directory for documentation")
+ if(WIN32 AND EPROSIMA_INSTALLER AND IS_TOP_LEVEL)
+-    set(LICENSE_INSTALL_DIR . CACHE PATH "Installation directory for licenses")
++    set(LICENSE_INSTALL_DIR . CACHE STRING "Installation directory for licenses")
+ else()
+-    set(LICENSE_INSTALL_DIR ${DATA_INSTALL_DIR}/${PROJECT_NAME} CACHE PATH "Installation directory for licenses")
++    set(LICENSE_INSTALL_DIR ${DATA_INSTALL_DIR}/${PROJECT_NAME} CACHE STRING "Installation directory for licenses")
+ endif()
+ 
+ ###############################################################################
+diff -urN fastcdr-1.0.24.orig/src/cpp/CMakeLists.txt fastcdr-1.0.24/src/cpp/CMakeLists.txt
+--- fastcdr-1.0.24.orig/src/cpp/CMakeLists.txt	2022-03-15 07:53:38.000000000 -0400
++++ fastcdr-1.0.24/src/cpp/CMakeLists.txt	2022-08-09 17:22:22.514204833 -0400
+@@ -168,11 +168,7 @@
+ 
+     export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_BINARY_DIR}/cmake/config/${PROJECT_NAME}-${FASTCDR_LINKING}-targets.cmake)
+ 
+-    if(INSTALLER_PLATFORM)
+-        set(INSTALL_DESTINATION_PATH ${DATA_INSTALL_DIR}/${PROJECT_NAME}-${INSTALLER_PLATFORM}/cmake)
+-    else()
+-        set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}${MSVCARCH_DIR_EXTENSION_EXT})
+-    endif()
++    set(INSTALL_DESTINATION_PATH ${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME})
+ 
+     install(EXPORT ${PROJECT_NAME}-${FASTCDR_LINKING}-targets
+         DESTINATION ${INSTALL_DESTINATION_PATH}

@@ -1,0 +1,58 @@
+Source: fastdds
+Section: admin
+Priority: optional
+Maintainer: ${DEB_MAINTAINER}
+Build-Depends:
+    debhelper (>=8),
+    lsb-release,
+    cmake,
+    libasio-dev,
+    libfastcdr1-dev,
+    libfoonathan-memory0-dev,
+    libssl-dev,
+    libtinyxml2-dev,
+Rules-Requires-Root: no
+Standards-Version: 4.3.0
+Homepage: https://www.eprosima.com
+Vcs-Git: https://github.com/eProsima/Fast-DDS.git
+Vcs-Browser: https://github.com/eProsima/Fast-DDS
+
+Package: libfastdds2
+Section: libs
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    ${shlibs:Depends},
+Pre-Depends: ${misc:Pre-Depends}
+Description: eProsima DDS/RTPS Middleware (library)
+ eProsima DDS/RTPS Middleware
+ .
+ This package provides the runtime libraries.
+
+Package: libfastdds2-dbg
+Section: libs
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    libfastdds2 (= ${binary:Version}),
+Pre-Depends: ${misc:Pre-Depends}
+Description: eProsima DDS/RTPS Middleware (debug)
+ eProsima DDS/RTPS Middleware
+ .
+ This package provides the detached debugging symbols.
+
+Package: libfastdds2-dev
+Section: libdevel
+Architecture: linux-any
+Multi-Arch: same
+Depends:
+    ${misc:Depends},
+    libfoonathan-memory0-dev,
+    libfastcdr1-dev,
+    libfastdds2 (= ${binary:Version}),
+Description: eProsima DDS/RTPS Middleware (development)
+ eProsima DDS/RTPS Middleware
+ .
+ This package contains the development files.
